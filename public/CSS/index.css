@@ -1,8 +1,41 @@
+/* Colour Scheme */
+:root {
+    --correct-green: #6ca965;
+    --medicore-yellow: #c8b653;
+    --incorrect-gray: #787c7f;
+}
 
-#game_grid{
-    width:25em;
-    height:30em;
+body {
+    font-family: 'Franklin Gothic Medium';
+}
+
+h1 {
+    text-align: center;
+}
+
+#game_grid {
+    display: grid;
+    width: 25em;
+    height: 30em;
+    margin-left: auto;
+    margin-right: auto;
+    grid-template-rows: repeat(6, 1fr);
+    gap: 5px;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+}
+
+.square {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: pink;
-    margin-left:auto;
-    margin-right:auto;
+    border: 1px solid black;
+    width: 100%;
+    height: 100%;
+    font-size: 2em;
 }
