@@ -21,3 +21,6 @@ Players will have **up to 6 guess** to determine the five-letter word of the day
 The overall designs for the game can be found at: [Design System](docs/design_system.md).
 
 ## In-game Screenshots
+
+## References
+- The raw .txt file containing all five-letter words was uploaded by GitHub user [Chaz Reid](https://github.com/charlesreid1). The file used can be found at [five-letter-wrds/sgb-words.txt](https://github.com/charlesreid1/five-letter-words/blob/master/sgb-words.txt)
