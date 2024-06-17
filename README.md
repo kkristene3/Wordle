@@ -8,7 +8,7 @@ Wordle is a web-based word game. Players have **up to 6 guess** to determine the
 2. Different coloured tiles will appear based on your guess.
 
 | Tile Colour | Meaning of Colour
-| --- | ---
+| :---: | ---
 | 🟩 | If the tile turns *green*, that letter is **in the word** and is in the **correct spot**. 
 | 🟨    | If the tile turns *yellow*, the letter is **in the word** but is in the **wrong position**. 
 | ⬜ | If the tile turns *grey*, the letter is **not in the word**.
