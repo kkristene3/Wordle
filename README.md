@@ -1,7 +1,8 @@
 # Wordle
 
 This project is an online copy of the New York Times game Wordle. The technologies used are HTML, CSS and JavaScript. It includes all the game functionalities of the original game, but is meant to be replayable with no user accounts, success stats or replay timeout.
-Wordle is a web-based word game. Players have **up to 6 guess** to determine the five-letter word of the day and are given feedback for each guess in the form of colored tiles.
+
+Players will have **up to 6 guess** to determine the five-letter word of the day and are given feedback for each guess in the form of colored tiles.
 
 ## Rules & Instructions
 
