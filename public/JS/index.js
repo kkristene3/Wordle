@@ -1,13 +1,18 @@
 /* This is the main flow of the game */
 
-// VARIABLES
+//Variable to store guessed word
 var word = '';
+//List to store previous guesses
+var wordList = [];
 
+//Tile colours
+var green = 'background-color: #6ca965';
+var yellow = 'background-color: #c8b653';
+var gray = 'background-color: #787c7f';
+
+//Variables to keep track of current square in the wordle grid
 var rowNumber = 0;
 var columnNumber = 0;
-
-var backspaceCounter = 0;
-var newLetter = 0;
 
 let wordleWord = getWordOfTheDay(); // a variable to hold the word of the day
 let gameOver = false; // a variable to keep track of whether the game is over or not
@@ -23,8 +28,8 @@ const wordleGrid = document.getElementById('game_grid');
         if (columnNumber<5){
             if (keyPressed.match(/[a-z]/i) && keyPressed.length == 1){
                 addLetter(wordleGrid, rowNumber, columnNumber, keyPressed);
+                word = word.concat(keyPressed);
                 columnNumber++;
-                backspaceCounter = 0;
             }
         }
         //if we have a backspace and we still have a letter left, erase the last letter upon backspace
@@ -32,31 +37,65 @@ const wordleGrid = document.getElementById('game_grid');
             if (keyPressed == 'BACKSPACE'){
                 columnNumber--;
                 removeLetter(wordleGrid, rowNumber, columnNumber);
-                backspaceCounter++;
+                word = word.substring(0, word.length-1);
             }
         }
 
         //pressing enter to lock in the guess
         if (columnNumber == 5){
             if (keyPressed == 'ENTER'){
-                //THIS IS WHERE WE CHECK IF THEY GOT THE WORD RIGHT/IF ITS VALID. IF THEY DID WE DO A YOU WON POPUP OR ASK THEM TO RE-ENTER WORD
-                //NEXT, IF THE WORD IS WRONG, CHECK IF ITS THE LAST ROW/THE GAME IS OVER
-                //OTHERWISE WE MOVE ON TO THE NEXT ROW
-            
+                word = word.toLowerCase();
 
                 // check if word if five-letters
                 checkWord(word).then(isValid => {
                     if (isValid) {
+
+                        //you won!
                         if (word == wordleWord) {
+                            //change all the squares to green
+                            for (var i = 0; i<5; i++){
+                                changeColour(wordleGrid, rowNumber, i, green);
+                            }
                             alert(`Congratulations! You took ${rowNumber+1} guesses!`);
                             gameOver = true; // end game
-                        } else {
-                            alert("DO THE FEEDBACK");
+                        } 
+                        //make sure the word hasn't alrady been guessed
+                        else if (wordList.includes(word)){
+                            alert("You've already tried this word. Try a different one");
+                        }
+                        //the word can be guessed, but is not correct 
+                        else {
+                            //check the position of every letter
+                            for (var i = 0; i<5; i++){
+                                currentLetter = word.charAt(i);
+                                expectedLetter = wordleWord.charAt(i);
+
+                                //if the letter is in the correct position, turn it green
+                                if (currentLetter == expectedLetter){
+                                    changeColour(wordleGrid, rowNumber, i, green);
+                                }
+                                //otherwise, if the word contains this letter, turn it yellow
+                                else if (wordleWord.includes(currentLetter)){
+                                    changeColour(wordleGrid, rowNumber, i, yellow);
+                                }
+                                //if the letter is not in the word, turn it yellow
+                                else{
+                                    changeColour(wordleGrid, rowNumber, i, gray);
+                                }
+                            }
+                            //if the user is on the last row and the word is not correct, they lost
+                            if (rowNumber == 5){
+                                gameOver = true; //end game
+                                alert('Oh no! Looks like you ran out of guesses! Game over =(');
+                            }
+                            //if the game is not over, move on to the next row, save the word as a previous guess and reset the word
                             rowNumber++;
                             columnNumber = 0;
+                            wordList.push(word);
+                            word = '';
                         }
                     } else {
-                        alert("Word is not valid. Try again.")
+                        alert("Word is not valid. Try again.");
                     }
                 });
             }
@@ -65,10 +104,10 @@ const wordleGrid = document.getElementById('game_grid');
 
 /**
  * This function adds a letter to a square
- * @param {*} grid 
- * @param {*} rowNum 
- * @param {*} squareNum 
- * @param {*} keyPressed 
+ * @param {*} grid The entire wordle grid
+ * @param {*} rowNum The row index of the current square to be updated
+ * @param {*} squareNum The column index of the current square to be updated
+ * @param {*} keyPressed The character to insert into the current square
  */
 function addLetter(grid, rowNum, squareNum, keyPressed){
     const row = grid.children[rowNum];
@@ -78,14 +117,27 @@ function addLetter(grid, rowNum, squareNum, keyPressed){
 
 /**
  * This function removes a letter from a square
- * @param {*} grid 
- * @param {*} rowNum 
- * @param {*} squareNum 
+ * @param {*} grid The entire wordle grid
+ * @param {*} rowNum The row index of the square to be updated
+ * @param {*} squareNum The column index of the square to be updated
  */
 function removeLetter(grid, rowNum, squareNum){
     const row = grid.children[rowNum];
     const square = row.children[squareNum];
     square.innerHTML = '';
+}
+
+/**
+ * This function changes the colour of a square
+ * @param {*} grid The entire wordle grid
+ * @param {*} rowNum The row index of the square to be changed
+ * @param {*} squareNum The column of the square to be changed
+ * @param {*} colour The color that the square must be turned into
+ */
+function changeColour(grid, rowNum, squareNum, colour){
+    const row = grid.children[rowNum];
+    const square = row.children[squareNum];
+    square.setAttribute("style", colour);
 }
 
 /**
@@ -124,6 +176,7 @@ function checkWord(word) {
 
             // seperate words into array
             const words = data.split('\n');
+            word = word.toLowerCase();
 
             // check if word is valid
             if (words.includes(word)) {
