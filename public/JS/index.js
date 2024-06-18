@@ -1,24 +1,22 @@
-// Get all squares
-let squares;
+/* GLOBAL VARIABLES */
+let squares; // Get all squares
+let count = 0; // a count to keep track of which square the user is at
+let rowCounter = 0; // a row counter to keep track of which row the user is at
+let wordleWord = getWordOfTheDay(); // a variable to hold the word of the day
+let gameOver = false; // a variable to keep track of whether the game is over or not
 
-// Initialize a count to keep track of which square the user is at
-let count = 0;
-
-// Initialize a row counter to keep track of which row the user is at
-let rowCounter = 0;
-
-// Initialize a variable to hold the word of the day
-let wordleWord = "";
-
+console.log(wordleWord);
 
 document.addEventListener('DOMContentLoaded', function() {
     
-    // Get all squares
+    // Get all squares in grid
     squares = document.querySelectorAll('.square');
-
 
     // Add event listener to capture keypress events
     document.addEventListener('keydown', function(event) {
+
+        if (gameOver) return;
+
         // Get the key pressed
         const keyPressed = event.key.toUpperCase();
 
@@ -30,7 +28,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 squares[count + rowCounter].textContent = '';
             }
         } 
-        else if (/^[A-Z]$/.test(keyPressed)) { // Check if the key pressed is a letter (A-Z)
+
+        // Check if the key pressed is a letter (A-Z)
+        else if (/^[A-Z]$/.test(keyPressed)) {
             // Ensure count doesn't go beyond the number of columns
             if (count < 5) {
                 squares[count+rowCounter].textContent = keyPressed;
@@ -50,14 +50,20 @@ document.addEventListener('DOMContentLoaded', function() {
             if (word.length !== 5) {
                 alert("Word must be five letters long.");
             }
-
-            checkWord(word).then(isValid => {
-                if (isValid) {
-                    console.log("true");
-                } else {
-                    console.log("false");
-                }
-            });
+            else {
+                checkWord(word).then(isValid => {
+                    if (isValid) {
+                        if (word == wordleWord) {
+                            alert("Congratulations! You guessed the word of the day!");
+                            gameOver = true; // end
+                        } else {
+                            alert("do the feedback thingy");
+                        }
+                    } else {
+                        alert("Word is not valid. Try again.")
+                    }
+                });
+            }
         }
     });
 });
