@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /* This function gets a random word from the list of possible wordle answers */
 function getWordOfTheDay() {
-    return fetch('https://gist.githubusercontent.com/dracos/dd0668f281e685bad51479e5acaadb93/raw/6bfa15d263d6d5b63840a8e5b64e04b382fdb079/valid-wordle-words.txt')
+    return fetch('https://gist.githubusercontent.com/scholtes/94f3c0303ba6a7768b47583aff36654d/raw/d9cddf5e16140df9e14f19c2de76a0ef36fd2748/wordle-La.txt')
         .then(response => response.text())
         .then(data => {
 
@@ -103,7 +103,7 @@ function getWord() {
 
 /* This function checks if a word is a valid five-letter word */
 function checkWord(word) {
-    return fetch('https://gist.githubusercontent.com/dracos/dd0668f281e685bad51479e5acaadb93/raw/6bfa15d263d6d5b63840a8e5b64e04b382fdb079/valid-wordle-words.txt')
+    return fetch('https://raw.githubusercontent.com/kkristene3/Wordle/kristen-branch/public/JS/acceptedWords.txt?token=GHSAT0AAAAAACR7YG22A4FT36KW623VRIVGZTRBT3A')
         .then(response => response.text())
         .then(data => {
 
