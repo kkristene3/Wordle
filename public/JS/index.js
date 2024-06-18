@@ -1,74 +1,102 @@
-/* GLOBAL VARIABLES */
-let squares; // Get all squares
-let count = 0; // a count to keep track of which square the user is at
-let rowCounter = 0; // a row counter to keep track of which row the user is at
+/* This is the main flow of the game */
+
+// VARIABLES
+var word = '';
+
+var rowNumber = 0;
+var columnNumber = 0;
+
+var backspaceCounter = 0;
+var newLetter = 0;
+
 let wordleWord = getWordOfTheDay(); // a variable to hold the word of the day
 let gameOver = false; // a variable to keep track of whether the game is over or not
 
-console.log(wordleWord);
+//getting the grid
+const wordleGrid = document.getElementById('game_grid');
 
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // Get all squares in grid
-    squares = document.querySelectorAll('.square');
-
-    // Add event listener to capture keypress events
-    document.addEventListener('keydown', function(event) {
-
-        if (gameOver) return;
-
-        // Get the key pressed
+    //typing letters into the squares of a row
+    document.addEventListener('keydown', event =>{
         const keyPressed = event.key.toUpperCase();
-
-        // if key pressed is backspace
-        if (keyPressed === 'BACKSPACE') {
-            // Ensure count doesn't go below 0
-            if (count > 0) {
-                count--;
-                squares[count + rowCounter].textContent = '';
+        if (gameOver) return;
+        //if we still have space in the row and it's a valid letter, add it to the squares
+        if (columnNumber<5){
+            if (keyPressed.match(/[a-z]/i) && keyPressed.length == 1){
+                addLetter(wordleGrid, rowNumber, columnNumber, keyPressed);
+                columnNumber++;
+                backspaceCounter = 0;
             }
-        } 
-
-        // Check if the key pressed is a letter (A-Z)
-        else if (/^[A-Z]$/.test(keyPressed)) {
-            // Ensure count doesn't go beyond the number of columns
-            if (count < 5) {
-                squares[count+rowCounter].textContent = keyPressed;
-                count++;
-            } else if (count+rowCounter < squares.length-1) { // if at end of row, move to next row
-                count = 0;
-                rowCounter += 5;
-                console.log(count+rowCounter);
+        }
+        //if we have a backspace and we still have a letter left, erase the last letter upon backspace
+        if (columnNumber > 0){
+            if (keyPressed == 'BACKSPACE'){
+                columnNumber--;
+                removeLetter(wordleGrid, rowNumber, columnNumber);
+                backspaceCounter++;
             }
         }
 
-        // if key pressed is enter
-        else if (keyPressed === 'ENTER') {
-            word = getWord();
+        //pressing enter to lock in the guess
+        if (columnNumber == 5){
+            if (keyPressed == 'ENTER'){
+                //THIS IS WHERE WE CHECK IF THEY GOT THE WORD RIGHT/IF ITS VALID. IF THEY DID WE DO A YOU WON POPUP OR ASK THEM TO RE-ENTER WORD
+                //NEXT, IF THE WORD IS WRONG, CHECK IF ITS THE LAST ROW/THE GAME IS OVER
+                //OTHERWISE WE MOVE ON TO THE NEXT ROW
+            
 
-            // check if word if five-letters
-            if (word.length !== 5) {
-                alert("Word must be five letters long.");
-            }
-            else {
-                checkWord(word).then(isValid => {
-                    if (isValid) {
-                        if (word == wordleWord) {
-                            alert("Congratulations! You guessed the word of the day!");
-                            gameOver = true; // end
+                // check if word if five-letters
+                if (word.length !== 5) {
+                    alert("Word must be five letters long.");
+                }
+                else {
+                    checkWord(word).then(isValid => {
+                        if (isValid) {
+                            if (word == wordleWord) {
+                                alert(`Congratulations! You took ${rowNumber+1} guesses!`);
+                                gameOver = true; // end game
+                            } else {
+                                alert("DO THE FEEDBACK");
+                                rowNumber++;
+                                columnNumber = 0;
+                            }
                         } else {
-                            alert("do the feedback thingy");
+                            alert("Word is not valid. Try again.")
                         }
-                    } else {
-                        alert("Word is not valid. Try again.")
-                    }
-                });
+                    });
+                }
             }
         }
     });
-});
 
-/* This function gets a random word from the list of possible wordle answers */
+/**
+ * This function adds a letter to a square
+ * @param {*} grid 
+ * @param {*} rowNum 
+ * @param {*} squareNum 
+ * @param {*} keyPressed 
+ */
+function addLetter(grid, rowNum, squareNum, keyPressed){
+    const row = grid.children[rowNum];
+    const square = row.children[squareNum];
+    square.innerHTML = keyPressed;
+}
+
+/**
+ * This function removes a letter from a square
+ * @param {*} grid 
+ * @param {*} rowNum 
+ * @param {*} squareNum 
+ */
+function removeLetter(grid, rowNum, squareNum){
+    const row = grid.children[rowNum];
+    const square = row.children[squareNum];
+    square.innerHTML = '';
+}
+
+/**
+ * This function gets a random word from the list of possible wordle answers 
+ * @returns the word of the day
+ */
 function getWordOfTheDay() {
     return fetch('https://gist.githubusercontent.com/scholtes/94f3c0303ba6a7768b47583aff36654d/raw/d9cddf5e16140df9e14f19c2de76a0ef36fd2748/wordle-La.txt')
         .then(response => response.text())
@@ -90,18 +118,11 @@ function getWordOfTheDay() {
         });
 }
 
-/* This function takes the letter in each square and concatenates into into a word */
-function getWord() {
-     // Get the word
-     let word = '';
-     for (let i = rowCounter; i < rowCounter + 5; i++) {
-         word += squares[i].textContent;
-     }
-     console.log(word);
-     return word.toLowerCase();
-}
-
-/* This function checks if a word is a valid five-letter word */
+/**
+ * This function checks if a word is a valid five-letter word
+ * @param {*} word 
+ * @returns true if word is valid, false otherwise
+ */
 function checkWord(word) {
     return fetch('https://raw.githubusercontent.com/kkristene3/Wordle/kristen-branch/public/JS/acceptedWords.txt?token=GHSAT0AAAAAACR7YG22A4FT36KW623VRIVGZTRBT3A')
         .then(response => response.text())
@@ -123,4 +144,9 @@ function checkWord(word) {
             console.error('Error:', error);
             return false;
         });
+}
+
+// GET RID OF THIS LATER - its to set the guess word
+function setWord(newWord) {
+    word = newWord;
 }
