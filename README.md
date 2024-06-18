@@ -1,6 +1,8 @@
 # Wordle
 
-Wordle is a web-based word game. Players have **up to 6 guess** to determine the five-letter word of the day and are given feedback for each guess in the form of colored tiles.
+This project is an online copy of the New York Times game Wordle. The technologies used are HTML, CSS and JavaScript. It includes all the game functionalities of the original game, but is meant to be replayable with no user accounts, success stats or replay timeout.
+
+Players will have **up to 6 guess** to determine the five-letter word of the day and are given feedback for each guess in the form of colored tiles.
 
 ## Rules & Instructions
 
@@ -19,3 +21,6 @@ Wordle is a web-based word game. Players have **up to 6 guess** to determine the
 The overall designs for the game can be found at: [Design System](docs/design_system.md).
 
 ## In-game Screenshots
+
+## References
+- The raw .txt file containing all five-letter words was uploaded by GitHub user [Chaz Reid](https://github.com/charlesreid1). The file used can be found at [five-letter-wrds/sgb-words.txt](https://github.com/charlesreid1/five-letter-words/blob/master/sgb-words.txt)
