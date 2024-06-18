@@ -23,4 +23,4 @@ The overall designs for the game can be found at: [Design System](docs/design_sy
 ## In-game Screenshots
 
 ## References
-- The raw .txt file containing all five-letter words was uploaded by GitHub user [Chaz Reid](https://github.com/charlesreid1). The file used can be found at [five-letter-wrds/sgb-words.txt](https://github.com/charlesreid1/five-letter-words/blob/master/sgb-words.txt)
+- The file containing all five-letter words was uploaded by GitHub user [Garrett Scholtes](https://gist.github.com/scholtes). The list of words used can be found at [Wordle dictionary](https://gist.github.com/scholtes/94f3c0303ba6a7768b47583aff36654d)
