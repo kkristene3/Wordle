@@ -57,7 +57,6 @@ const wordleGrid = document.getElementById('game_grid');
                         }
                     } else {
                         alert("Word is not valid. Try again.")
-                        console.log(gameOver);
                     }
                 });
             }
@@ -105,8 +104,7 @@ function getWordOfTheDay() {
             const randomIndex = Math.floor(Math.random() * possibleWords.length);
             wordleWord = possibleWords[randomIndex];
 
-            console.log(wordleWord);
-
+            return wordleWord;
         })
         .catch((error) => {
             console.error('Error:', error);
