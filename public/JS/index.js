@@ -45,25 +45,21 @@ const wordleGrid = document.getElementById('game_grid');
             
 
                 // check if word if five-letters
-                if (word.length !== 5) {
-                    alert("Word must be five letters long.");
-                }
-                else {
-                    checkWord(word).then(isValid => {
-                        if (isValid) {
-                            if (word == wordleWord) {
-                                alert(`Congratulations! You took ${rowNumber+1} guesses!`);
-                                gameOver = true; // end game
-                            } else {
-                                alert("DO THE FEEDBACK");
-                                rowNumber++;
-                                columnNumber = 0;
-                            }
+                checkWord(word).then(isValid => {
+                    if (isValid) {
+                        if (word == wordleWord) {
+                            alert(`Congratulations! You took ${rowNumber+1} guesses!`);
+                            gameOver = true; // end game
                         } else {
-                            alert("Word is not valid. Try again.")
+                            alert("DO THE FEEDBACK");
+                            rowNumber++;
+                            columnNumber = 0;
                         }
-                    });
-                }
+                    } else {
+                        alert("Word is not valid. Try again.")
+                        console.log(gameOver);
+                    }
+                });
             }
         }
     });
