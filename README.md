@@ -1,12 +1,12 @@
 # Wordle
 
-This project is an online copy of the New York Times game Wordle. The technologies used are HTML, CSS and JavaScript. It includes all the game functionalities of the original game, but is meant to be replayable with no user accounts, success stats or replay timeout.
+This project is an online copy of the New York Times game Wordle. The technologies used are HTML, CSS, and JavaScript. It includes all the game functionalities of the original game but is meant to be replayable with no user accounts, success stats or replay timeout.
 
-Players will have **up to 6 guess** to determine the five-letter word of the day and are given feedback for each guess in the form of colored tiles.
+Players will have **up to 6 guess** to determine the five-letter word of the day. They are given feedback for each guess made in the form of colored tiles.
 
 ## Rules & Instructions
 
-1. Begin typing a five-letter word. When you are ready to make a guess, hit the 'Enter' button on your keyboard.
+1. Begin typing a five-letter word using your keyboard. When you are ready to make a guess, hit the 'Enter' button on your keyboard.
 2. Different coloured tiles will appear based on your guess.
 
 | Tile Colour | Meaning of Colour
@@ -14,7 +14,8 @@ Players will have **up to 6 guess** to determine the five-letter word of the day
 | 🟩 | If the tile turns *green*, that letter is **in the word** and is in the **correct spot**. 
 | 🟨    | If the tile turns *yellow*, the letter is **in the word** but is in the **wrong position**. 
 | ⬜ | If the tile turns *grey*, the letter is **not in the word**.
-3. Continue making guesses based on the feedback you receive until you either get the word of the day or  run out of guesses.
+3. Continue making guesses based on the feedback you receive until you either get the word of the day or run out of guesses.
+4. To play again, refresh the page for a new Wordle.
 
 ## Design
 
@@ -23,4 +24,5 @@ The overall designs for the game can be found at: [Design System](docs/design_sy
 ## In-game Screenshots
 
 ## References
-- The raw .txt file containing all five-letter words was uploaded by GitHub user [Chaz Reid](https://github.com/charlesreid1). The file used can be found at [five-letter-wrds/sgb-words.txt](https://github.com/charlesreid1/five-letter-words/blob/master/sgb-words.txt)
+- The raw .txt file containing all possible Wordle answers was uploaded by GitHub user [Garrett Scholtes](https://gist.github.com/scholtes). This list of words used can be found at [Wordle dictionary](https://gist.github.com/scholtes/94f3c0303ba6a7768b47583aff36654d).
+- The list of valid five-letter guesses came from GitHub user [Chaz Reid](https://github.com/charlesreid1). That file used can be found at [five-letter-wrds/sgb-words.txt](https://github.com/charlesreid1/five-letter-words/blob/master/sgb-words.txt).
