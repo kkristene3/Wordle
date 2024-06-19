@@ -38,7 +38,7 @@ As a user plays the game, they will receive pop-up messages and feedback, in ter
 
 - When the user **correctly guesses a word**, they receive a congratulations message as well as how many guesses it took them.
 
-![correct word message](imgs/guessed-word-1.png)
+![correct word message](imgs/guessed-word.png)
 
 - When the user **uses up all 6 guesses**, they receive a message stating they have ran out of guesses and what the answer was.
 
