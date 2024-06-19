@@ -39,4 +39,4 @@ When the user **correctly guesses a word**, they receive a congratulations messa
 
 ## References
 - The raw .txt file containing all possible Wordle answers was uploaded by GitHub user [Garrett Scholtes](https://gist.github.com/scholtes). This list of words used can be found at [Wordle dictionary](https://gist.github.com/scholtes/94f3c0303ba6a7768b47583aff36654d).
-- The list of valid five-letter guesses came from GitHub user [Chaz Reid](https://github.com/charlesreid1). That file used can be found at [five-letter-wrds/sgb-words.txt](https://github.com/charlesreid1/five-letter-words/blob/master/sgb-words.txt).
+- The list of valid five-letter guesses came from GitHub user [Matthew Somerville](https://gist.github.com/dracos). That file used can be found at [valid-wordle-words.txt](https://gist.github.com/dracos/dd0668f281e685bad51479e5acaadb93).

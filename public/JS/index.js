@@ -170,7 +170,7 @@ function getWordOfTheDay() {
  * @returns true if word is valid, false otherwise
  */
 function checkWord(word) {
-    return fetch('https://raw.githubusercontent.com/charlesreid1/five-letter-words/master/sgb-words.txt')
+    return fetch('https://gist.githubusercontent.com/dracos/dd0668f281e685bad51479e5acaadb93/raw/6bfa15d263d6d5b63840a8e5b64e04b382fdb079/valid-wordle-words.txt')
         .then(response => response.text())
         .then(data => {
 
@@ -191,9 +191,4 @@ function checkWord(word) {
             console.error('Error:', error);
             return false;
         });
-}
-
-// GET RID OF THIS LATER - its to set the guess word
-function setWord(newWord) {
-    word = newWord;
 }
