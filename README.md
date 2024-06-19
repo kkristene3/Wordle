@@ -24,15 +24,15 @@ The overall designs for the game can be found at: [Design System](docs/design_sy
 ## In-game Screenshots
 As a user plays the game, they will receive pop-up messages and feedback, in terms of coloured tiles, based on the words they guess.
 
-When a user makes a **valid guess**, the grid will display the appropriate feedback through coloured tiles.
+- When a user makes a **valid guess**, the grid will display the appropriate feedback through coloured tiles.
 
 ![alt text](imgs/feedback.png)
 
-When a user **guesses a word that does not exist**, they receive the following message:
+- When a user **guesses a word that does not exist**, they receive the following message:
 
 ![invalid word message](imgs/invalid-word.png)
 
-When the user **correctly guesses a word**, they receive a congratulations message as well as how many guesses it took them.
+- When the user **correctly guesses a word**, they receive a congratulations message as well as how many guesses it took them.
 
 ![correct word message](imgs/guessed-word-1.png)
 
