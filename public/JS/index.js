@@ -56,8 +56,8 @@ const wordleGrid = document.getElementById('game_grid');
                             for (var i = 0; i<5; i++){
                                 changeColour(wordleGrid, rowNumber, i, green);
                             }
-                            alert(`Congratulations! You took ${rowNumber+1} guesses!`);
                             gameOver = true; // end game
+                            alert(`Congratulations! You took ${rowNumber+1} guesses!`);
                         } 
                         //make sure the word hasn't alrady been guessed
                         else if (wordList.includes(word)){
@@ -86,7 +86,7 @@ const wordleGrid = document.getElementById('game_grid');
                             //if the user is on the last row and the word is not correct, they lost
                             if (rowNumber == 5){
                                 gameOver = true; //end game
-                                alert('Oh no! Looks like you ran out of guesses! Game over =(');
+                                alert(`Oh no! Looks like you ran out of guesses! The answer was ${wordleWord}. Game over =(`);
                             }
                             //if the game is not over, move on to the next row, save the word as a previous guess and reset the word
                             rowNumber++;

@@ -24,11 +24,15 @@ The overall designs for the game can be found at: [Design System](docs/design_sy
 ## In-game Screenshots
 As a user plays the game, they will receive pop-up messages and feedback, in terms of coloured tiles, based on the words they guess.
 
-- When a user makes a **valid guess**, the grid will display the appropriate feedback through coloured tiles.
+- When the user makes a **valid guess**, the grid will display the appropriate feedback through coloured tiles.
 
-![alt text](imgs/feedback.png)
+![valid-guesses](imgs/feedback.png)
 
-- When a user **guesses a word that does not exist**, they receive the following message:
+- When the user **reguesses a word**, they receive the following message:
+
+![alt text](repeated-word-1.png)
+
+- When the user **guesses a word that does not exist**, they receive the following message:
 
 ![invalid word message](imgs/invalid-word.png)
 
@@ -36,6 +40,9 @@ As a user plays the game, they will receive pop-up messages and feedback, in ter
 
 ![correct word message](imgs/guessed-word-1.png)
 
+- When the user **uses up all 6 guesses**, they receive a message stating they have ran out of guesses and what the answer was.
+
+![ran-out-of-guesses](ran-out-of-guesses.png)
 
 ## References
 - The raw .txt file containing all possible Wordle answers was uploaded by GitHub user [Garrett Scholtes](https://gist.github.com/scholtes). This list of words used can be found at [Wordle dictionary](https://gist.github.com/scholtes/94f3c0303ba6a7768b47583aff36654d).
