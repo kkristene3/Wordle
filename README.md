@@ -30,7 +30,7 @@ As a user plays the game, they will receive pop-up messages and feedback, in ter
 
 - When the user **reguesses a word**, they receive the following message:
 
-![alt text](repeated-word-1.png)
+![repeated-word](imgs/repeated-word.png)
 
 - When the user **guesses a word that does not exist**, they receive the following message:
 
@@ -42,7 +42,7 @@ As a user plays the game, they will receive pop-up messages and feedback, in ter
 
 - When the user **uses up all 6 guesses**, they receive a message stating they have ran out of guesses and what the answer was.
 
-![ran-out-of-guesses](ran-out-of-guesses.png)
+![ran-out-of-guesses](imgs/ran-out-of-guesses.png)
 
 ## References
 - The raw .txt file containing all possible Wordle answers was uploaded by GitHub user [Garrett Scholtes](https://gist.github.com/scholtes). This list of words used can be found at [Wordle dictionary](https://gist.github.com/scholtes/94f3c0303ba6a7768b47583aff36654d).
