@@ -74,11 +74,39 @@ const wordleGrid = document.getElementById('game_grid');
                                 if (currentLetter == expectedLetter){
                                     changeColour(wordleGrid, rowNumber, i, green);
                                 }
-                                //otherwise, if the word contains this letter, turn it yellow
+                                //otherwise, if the word contains this letter, figure out what to do with it
                                 else if (wordleWord.includes(currentLetter)){
-                                    changeColour(wordleGrid, rowNumber, i, yellow);
+                                    //first we have to check if this is the letter guessed an extra time
+                                    let wordCount = 0;
+                                    let wordleCount = 0;
+                                    let incorrectCount = 0;
+                                    let correctCount = 0;
+                                    //we need to check if there are any more instances of the letter left in the word
+                                    //we start by seeing how many instances there are in the expected word and how many are guessed correctly
+                                    for (let j = 0; j<5; j++){
+                                        if (wordleWord.charAt(j) == currentLetter){
+                                            wordleCount++;
+                                            if (word.charAt(j) == currentLetter){
+                                                correctCount++;
+                                            }
+                                        }
+                                    }
+                                    //we see how many incorrect instances we already covered in our guess
+                                    for (let j = 0; j<i; j++){
+                                        if (word.charAt(j) == currentLetter && wordleWord.charAt(j) != currentLetter){
+                                            incorrectCount++;
+                                        }  
+                                    }
+                                    //if the number of correct instances of the letter + the previous incorrect instances in the word are equal to the instances in the acutal word, then this square should be gray
+                                    if (wordleCount - (correctCount+incorrectCount) <= 0){
+                                        changeColour(wordleGrid, rowNumber, i, gray);
+                                    }
+                                    //otherwise, it should be yellow
+                                    else{
+                                        changeColour(wordleGrid, rowNumber, i, yellow);
+                                    }
                                 }
-                                //if the letter is not in the word, turn it yellow
+                                //if the letter is not in the word, turn it gray
                                 else{
                                     changeColour(wordleGrid, rowNumber, i, gray);
                                 }
@@ -191,9 +219,4 @@ function checkWord(word) {
             console.error('Error:', error);
             return false;
         });
-}
-
-// GET RID OF THIS LATER - its to set the guess word
-function setWord(newWord) {
-    word = newWord;
 }
