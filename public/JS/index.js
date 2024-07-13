@@ -1,5 +1,10 @@
 /* This is the main flow of the game */
 
+// get JSON file
+fetch('./objects.json')
+    .then(response => response.json())
+    .then((json) => console.log(json));
+
 //Variable to store guessed word
 var word = '';
 //List to store previous guesses
