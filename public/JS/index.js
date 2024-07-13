@@ -1,7 +1,7 @@
 /* This is the main flow of the game */
 
 // get JSON file
-fetch('./objects.json')
+fetch('https://raw.githubusercontent.com/kkristene3/Wordle/main/public/objects.json')
     .then(response => response.json())
     .then((json) => console.log(json));
 
