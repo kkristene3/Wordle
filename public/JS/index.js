@@ -1,10 +1,46 @@
+// XML HTTP Request to fetch data from a JSON file
+// Function to fetch data from a JSON file
+function fetchData() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'objects.json', true);
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var data = JSON.parse(xhr.responseText);
+            updateScoreboard(data.score);
+        }
+    };
+
+    xhr.send();
+}
+
+function updateScoreboard(score) {
+    // populate scoreboard with data from JSON file
+    let placeholder = document.getElementById('scoreboard-data');
+    let output = "";
+
+    // Access the score array within the JSON object
+    for (let guess of score) {
+        output += `
+        <tr>
+            <td>${guess.rank}</td>
+            <td>${guess.guessesTaken}</td>
+        </tr>
+        `;
+    }
+    // Populate the table with the data from the JSON file
+    placeholder.innerHTML = output;
+}
+
+// Fetch the data when the page loads
+window.onload = function() {
+    fetchData();
+};
+
+// Example function to simulate data fetching periodically (e.g., every 10 seconds)
+setInterval(fetchData, 10000); // Fetch data every 10 seconds
+
 /* This is the main flow of the game */
-
-// get JSON file
-fetch('https://raw.githubusercontent.com/kkristene3/Wordle/main/public/objects.json')
-    .then(response => response.json())
-    .then((json) => console.log(json));
-
 //Variable to store guessed word
 var word = '';
 //List to store previous guesses
@@ -22,13 +58,23 @@ var columnNumber = 0;
 let wordleWord = getWordOfTheDay(); // a variable to hold the word of the day
 let gameOver = false; // a variable to keep track of whether the game is over or not
 
+// get button object
+let restartButton = document.getElementById('reset_button');
+
+// get table object
+let scoreboard = document.getElementById('scoreboard');
+
+
 //getting the grid
 const wordleGrid = document.getElementById('game_grid');
 
     //typing letters into the squares of a row
     document.addEventListener('keydown', event =>{
         const keyPressed = event.key.toUpperCase();
-        if (gameOver) return;
+        if (gameOver) { 
+            // make restart button visible
+            restartButton.style.display = 'block';
+         };
         //if we still have space in the row and it's a valid letter, add it to the squares
         if (columnNumber<5){
             if (keyPressed.match(/[a-z]/i) && keyPressed.length == 1){
@@ -63,6 +109,8 @@ const wordleGrid = document.getElementById('game_grid');
                             }
                             gameOver = true; // end game
                             alert(`Congratulations! You took ${rowNumber+1} guesses!`);
+                            // make restart button visible
+                            restartButton.style.display = 'block';
                         } 
                         //make sure the word hasn't alrady been guessed
                         else if (wordList.includes(word)){
@@ -120,6 +168,8 @@ const wordleGrid = document.getElementById('game_grid');
                             if (rowNumber == 5){
                                 gameOver = true; //end game
                                 alert(`Oh no! Looks like you ran out of guesses! The answer was ${wordleWord}. Game over =(`);
+                                // make restart button visible
+                                restartButton.style.display = 'block';
                             }
                             //if the game is not over, move on to the next row, save the word as a previous guess and reset the word
                             rowNumber++;
@@ -171,6 +221,32 @@ function changeColour(grid, rowNum, squareNum, colour){
     const row = grid.children[rowNum];
     const square = row.children[squareNum];
     square.setAttribute("style", colour);
+}
+
+/**
+ * This function resets the game when the button is clicked
+ */
+function resetGame() {
+    // hide restart button
+    restartButton.style.display = 'none';
+
+    // reset variables
+    word = '';
+    wordList = [];
+    rowNumber = 0;
+    columnNumber = 0;
+    gameOver = false;
+
+    // reset grid
+    for (var i = 0; i<6; i++){
+        for (var j = 0; j<5; j++){
+            changeColour(wordleGrid, i, j, 'background-color: white');
+            removeLetter(wordleGrid, i, j);
+        }
+    }
+
+    // get new word of the day
+    wordleWord = getWordOfTheDay();
 }
 
 /**
