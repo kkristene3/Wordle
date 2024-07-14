@@ -23,6 +23,7 @@ function checkLetterPlacement($guess){
     if ($json_array['currentWord'] == $guess){
         $json_array['GAMEOVER'] = 1;  
         $json_array['colourArray'] = [2, 2, 2, 2, 2];
+        $json_array['rowNum'] = $json_array['rowNum'] + 1;
     }
 
     //otherwise, if the word has already been guessed, we wanna make the word invalid
