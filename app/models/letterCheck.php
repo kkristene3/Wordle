@@ -24,6 +24,28 @@ function checkLetterPlacement($guess){
         $json_array['GAMEOVER'] = 1;  
         $json_array['colourArray'] = [2, 2, 2, 2, 2];
         $json_array['rowNum'] = $json_array['rowNum'] + 1;
+
+        // get the current scoreboard
+        $scoreboard = $json_array['score'];
+        $currentScore = $json_array['rowNum'];
+
+        // compare the values in the scoreboard to the current score (if there is a "-" replace it with the current score, if the current score is less than the scoreboard score, put the current score in that spot and move the previous value down, if its the last spot in the array, remove it from the array)
+        for ($i = 0; $i < 10; $i++){
+            if ($scoreboard[$i] == "-"){
+                $scoreboard[$i] = $currentScore;
+                break;
+            }
+            else if ($currentScore < $scoreboard[$i]){
+                $temp = $scoreboard[$i];
+                $scoreboard[$i] = $currentScore;
+                $currentScore = $temp;
+            }
+            else if ($i == 4){
+                array_pop($scoreboard);
+            }
+        }
+        print_r($scoreboard);
+
     }
 
     //otherwise, if the word has already been guessed, we wanna make the word invalid
