@@ -1,12 +1,3 @@
-<?php
-require 'app\models\wordOfDay.php';
-use Wordle\wordOfDay;
- 
-$wordOfDayInstance = new WordOfDay();
-$wordOfTheDay = $wordOfDayInstance->getWordOfTheDay();
-
-?>
-
 <!-- HTML CODE -->
 <!DOCTYPE html>
 <html lang="en">
@@ -29,10 +20,6 @@ $wordOfTheDay = $wordOfDayInstance->getWordOfTheDay();
 </head>
 
 <body>
-
-<h1>Word of the Day</h1>
-    <h1>Word of the Day</h1>
-    <p><?php echo htmlspecialchars($wordOfTheDay, ENT_QUOTES, 'UTF-8'); ?></p>
     <h1>Wordle</h1>
 
     <!-- Game structure -->
@@ -86,11 +73,27 @@ $wordOfTheDay = $wordOfDayInstance->getWordOfTheDay();
         </div>
     </div>
 
-    <!-- Play Again Button (default: hidden) -->
-    <button id="reset_button">PLAY AGAIN</button>
+    <!-- Play Again Button -->
+    <button id="reset_button" onclick="resetGame()">PLAY AGAIN?</button>
+
+    <!-- Scoreboard -->
+     <h2>SCOREBOARD</h2>
+     <table name="scoreboard" id="scoreboard">
+        <thead>
+             <tr>
+                <th>Rank</th>
+                <th>Guesses Taken</th>
+            </tr>
+        </thead>
+        <tbody id="scoreboard-data">
+        <!-- Populate table with data in JSON using JS-->
+       </tbody>
+        
+     </table>
 
     <!-- JS File Location -->
     <script src="JS/index.js"></script>
     </body>
 
 </html>
+

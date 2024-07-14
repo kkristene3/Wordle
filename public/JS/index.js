@@ -1,28 +1,46 @@
-/* This is the main flow of the game */
+// XML HTTP Request to fetch data from a JSON file
+// Function to fetch data from a JSON file
+function fetchData() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'objects.json', true);
 
-// get JSON file
-fetch('https://raw.githubusercontent.com/kkristene3/Wordle/kristen_branch/app/objects.json')
-    .then(response => response.json())
-    .then(function(data) {
-        let placeholder = document.getElementById('scoreboard-data');
-        let output = "";
-
-        // Access the score array within the JSON object
-        for (let guess of data.score) {
-            output += `
-            <tr>
-                <td>${guess.rank}</td>
-                <td>${guess.guessesTaken}</td>
-            </tr>
-            `;
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var data = JSON.parse(xhr.responseText);
+            updateScoreboard(data.score);
         }
+    };
 
-        // Populate the table with the data from the JSON file
-        placeholder.innerHTML = output;
-    })
-    .catch(error => console.error('Error fetching JSON:', error));
+    xhr.send();
+}
 
+function updateScoreboard(score) {
+    // populate scoreboard with data from JSON file
+    let placeholder = document.getElementById('scoreboard-data');
+    let output = "";
 
+    // Access the score array within the JSON object
+    for (let guess of score) {
+        output += `
+        <tr>
+            <td>${guess.rank}</td>
+            <td>${guess.guessesTaken}</td>
+        </tr>
+        `;
+    }
+    // Populate the table with the data from the JSON file
+    placeholder.innerHTML = output;
+}
+
+// Fetch the data when the page loads
+window.onload = function() {
+    fetchData();
+};
+
+// Example function to simulate data fetching periodically (e.g., every 10 seconds)
+setInterval(fetchData, 10000); // Fetch data every 10 seconds
+
+/* This is the main flow of the game */
 //Variable to store guessed word
 var word = '';
 //List to store previous guesses
