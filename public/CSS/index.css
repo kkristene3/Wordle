@@ -40,3 +40,17 @@ h1 {
     height: 100%;
     font-size: 2em;
 }
+
+#reset_button {
+    display: block;
+    font-family: 'Franklin Gothic Medium';
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1em;
+    padding: 0.5em 1em;
+    font-size: 1.5em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    visibility: hidden;
+}
