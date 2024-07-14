@@ -1,9 +1,27 @@
 /* This is the main flow of the game */
 
 // get JSON file
-fetch('https://raw.githubusercontent.com/kkristene3/Wordle/main/public/objects.json')
+fetch('https://raw.githubusercontent.com/kkristene3/Wordle/kristen_branch/app/objects.json')
     .then(response => response.json())
-    .then((json) => console.log(json));
+    .then(function(data) {
+        let placeholder = document.getElementById('scoreboard-data');
+        let output = "";
+
+        // Access the score array within the JSON object
+        for (let guess of data.score) {
+            output += `
+            <tr>
+                <td>${guess.rank}</td>
+                <td>${guess.guessesTaken}</td>
+            </tr>
+            `;
+        }
+
+        // Populate the table with the data from the JSON file
+        placeholder.innerHTML = output;
+    })
+    .catch(error => console.error('Error fetching JSON:', error));
+
 
 //Variable to store guessed word
 var word = '';
@@ -24,6 +42,10 @@ let gameOver = false; // a variable to keep track of whether the game is over or
 
 // get button object
 let restartButton = document.getElementById('reset_button');
+
+// get table object
+let scoreboard = document.getElementById('scoreboard');
+
 
 //getting the grid
 const wordleGrid = document.getElementById('game_grid');

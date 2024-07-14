@@ -6,7 +6,7 @@
 }
 
 body {
-    font-family: 'Franklin Gothic Medium';
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     background-color: pink;
 }
 
@@ -43,7 +43,7 @@ h1, h2 {
 
 #reset_button {
     display: none;
-    font-family: 'Franklin Gothic Medium';
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     margin-left: auto;
     margin-right: auto;
     margin-top: 1em;
@@ -58,4 +58,5 @@ table, th, td {
     width: 50%;
     text-align: center;
     border: black 1px solid;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
