@@ -25,28 +25,33 @@ function checkLetterPlacement($guess){
         $json_array['colourArray'] = [2, 2, 2, 2, 2];
         $json_array['rowNum'] = $json_array['rowNum'] + 1;
 
-        // get the current scoreboard
+        // get the current scoreboard and the current score
         $scoreboard = $json_array['score'];
         $currentScore = $json_array['rowNum'];
 
-        // compare the values in the scoreboard to the current score (if there is a "-" replace it with the current score, if the current score is less than the scoreboard score, put the current score in that spot and move the previous value down, if its the last spot in the array, remove it from the array)
-        for ($i = 0; $i < 10; $i++){
-            if ($scoreboard[$i] == "-"){
-                $scoreboard[$i] = $currentScore;
-                break;
-            }
-            else if ($currentScore < $scoreboard[$i]){
-                $temp = $scoreboard[$i];
-                $scoreboard[$i] = $currentScore;
-                $currentScore = $temp;
-            }
-            else if ($i == 4){
-                array_pop($scoreboard);
-            }
-        }
-        print_r($scoreboard);
+        // add the current score to the scoreboard
+        array_push($scoreboard, $currentScore);
 
-    }
+        // filter out the placeholders ("-") from the scoreboard into a new array
+        $filteredScores = array_filter($scoreboard, function($value) {
+            return $value !== "-";
+        });
+
+        // sort the filtered scores array
+        sort($filteredScores, SORT_NUMERIC);
+
+        // keep track of only the top 10 scores
+        $topScores = array_slice($filteredScores, 0, 10);
+
+        // add back in the placeholders if there are less than 10 scores
+        while (count($topScores) < 10) {
+            $topScores[] = "-";
+        }
+
+        // place the updated scoreboard back into the JSON array
+        $json_array['score'] = $topScores;
+
+        }
 
     //otherwise, if the word has already been guessed, we wanna make the word invalid
     else if (in_array($guess, $json_array['guessedWords'])){
