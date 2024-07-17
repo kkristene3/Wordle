@@ -18,13 +18,13 @@ function updateScoreboard(score) {
     // populate scoreboard with data from JSON file
     let placeholder = document.getElementById('scoreboard-data');
     let output = "";
-
+    let i = 1;
     // Access the score array within the JSON object
     for (let guess of score) {
         output += `
         <tr>
-            <td>${guess.rank}</td>
-            <td>${guess.guessesTaken}</td>
+            <td>${i++}</td>
+            <td>${guess}</td>
         </tr>
         `;
     }

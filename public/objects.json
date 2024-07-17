@@ -2,47 +2,7 @@
     "wordValid": 0,
     "colourArray": [0,0,0,0,0],
     "rowNum": 0,
-    "score": [
-        {
-            "rank": 1,
-            "guessesTaken": "-"
-        },
-        {
-            "rank": 2,
-            "guessesTaken": "-"
-        },
-        {
-            "rank": 3,
-            "guessesTaken": "-"
-        },
-        {
-            "rank": 4,
-            "guessesTaken": "-"
-        },
-        {
-            "rank": 5,
-            "guessesTaken": "-"
-        },
-        {
-            "rank": 6,
-            "guessesTaken": "-"
-        },
-        {
-            "rank": 7,
-            "guessesTaken": "-"
-        },
-        {
-            "rank": 8,
-            "guessesTaken": "-"
-        },
-        {
-            "rank": 9,
-            "guessesTaken": "-"
-        },
-        {
-            "rank": 10,
-            "guessesTaken": "-"
-        }],
+    "score": ["-","-","-","-","-","-","-","-","-","-"],
     "GAMEOVER": -1,
     "currentWord": "",
     "guessedWords": [null,null,null,null,null, null]
