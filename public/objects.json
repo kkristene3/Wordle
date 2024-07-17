@@ -44,5 +44,6 @@
             "guessesTaken": "-"
         }],
     "GAMEOVER": -1,
-    "currentWord": ""
+    "currentWord": "",
+    "guessedWords": [null,null,null,null,null, null]
 }

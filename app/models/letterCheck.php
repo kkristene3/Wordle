@@ -4,7 +4,7 @@
 function checkLetterPlacement($guess){
 
     //get objects from JSON file
-    $json_content = file_get_contents('../practiceJsonAlex.json');
+    $json_content = file_get_contents('../../public/objects.json');
 
     //check if the file was read successfully
     if ($json_content === false){
@@ -37,7 +37,6 @@ function checkLetterPlacement($guess){
         for ($i = 0; $i<5; $i++){
             $currentLetter = substr($guess, $i, 1);
             $expectedLetter = substr($json_array['currentWord'], $i, 1);
-            print_r($currentLetter);
 
             //if the letter is in the correct position, we add green to its spot in the colour array
             if ($currentLetter == $expectedLetter){
@@ -94,7 +93,7 @@ function checkLetterPlacement($guess){
 
     //modifying the data in the JSON file
     $final_json_content = json_encode($json_array);
-    file_put_contents('../practiceJsonAlex.json', $final_json_content);
+    file_put_contents('../../public/objects.json', $final_json_content);
 }
 
 checkLetterPlacement("guess");
