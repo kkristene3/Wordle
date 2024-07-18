@@ -70,14 +70,14 @@ const wordleGrid = document.getElementById('game_grid');
     document.addEventListener('keydown', event =>{
         const keyPressed = event.key.toUpperCase();
 
-        //making sure the user can't try to guess when the game is over
-        if (gameOver == 1 || gameOver == 2) return;
-
         //MAYBE PUT THIS OUTSIDE OF THE EVENT LISTENER, IT'S NOT GOING TO GET HERE OTHERWISE
-        if (gameOver != 0 || gameOver != -1) { 
+        if (gameOver != 0 && gameOver != -1) { 
             // make restart button visible
             restartButton.style.display = 'block';
          };
+
+        //making sure the user can't try to guess when the game is over
+        if (gameOver == 1 || gameOver == 2) return;
 
 
         //if we still have space in the row and it's a valid letter, add it to the squares
@@ -240,57 +240,4 @@ function resetGame() {
             removeLetter(wordleGrid, i, j);
         }
     }
-}
-
-/**
- * This function gets a random word from the list of possible wordle answers 
- * @returns the word of the day
- */
-function getWordOfTheDay() {
-    return fetch('https://gist.githubusercontent.com/scholtes/94f3c0303ba6a7768b47583aff36654d/raw/d9cddf5e16140df9e14f19c2de76a0ef36fd2748/wordle-La.txt')
-        .then(response => response.text())
-        .then(data => {
-
-            // seperate words into array
-            const possibleWords = data.split('\n');
-
-            // get a random word from the array
-            const randomIndex = Math.floor(Math.random() * possibleWords.length);
-            wordleWord = possibleWords[randomIndex];
-
-            return wordleWord;
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            return "";
-        });
-}
-
-/**
- * This function checks if a word is a valid five-letter word
- * @param {*} word 
- * @returns true if word is valid, false otherwise
- */
-function checkWord(word) {
-    return fetch('https://gist.githubusercontent.com/dracos/dd0668f281e685bad51479e5acaadb93/raw/6bfa15d263d6d5b63840a8e5b64e04b382fdb079/valid-wordle-words.txt')
-        .then(response => response.text())
-        .then(data => {
-
-            // seperate words into array
-            const words = data.split('\n');
-            word = word.toLowerCase();
-
-            // check if word is valid
-            if (words.includes(word)) {
-                console.log(`The word "${word}" is valid.`);
-                return true;
-            } else {
-                console.log(`The word "${word}" is not valid.`);
-                return false;
-            }
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            return false;
-        });
 }
