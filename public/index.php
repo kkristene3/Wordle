@@ -1,3 +1,4 @@
+<!-- HTML CODE -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -92,6 +93,10 @@
 
     <!-- JS File Location -->
     <script src="JS/index.js"></script>
+
+    
     </body>
 
 </html>
+
+
