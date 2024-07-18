@@ -43,8 +43,6 @@ setInterval(fetchData, 10000); // Fetch data every 10 seconds
 /* This is the main flow of the game */
 //Variable to store guessed word
 var word = '';
-//List to store previous guesses
-var wordList = [];
 
 //Tile colours
 var green = 'background-color: #6ca965';
@@ -55,8 +53,8 @@ var gray = 'background-color: #787c7f';
 var rowNumber = 0;
 var columnNumber = 0;
 
-let wordleWord = getWordOfTheDay(); // a variable to hold the word of the day
-let gameOver = false; // a variable to keep track of whether the game is over or not
+//GRAB THIS VALUE FROM THE JSON FILE
+let gameOver = 0; // a variable to keep track of whether the game is over or not
 
 // get button object
 let restartButton = document.getElementById('reset_button');
@@ -71,10 +69,17 @@ const wordleGrid = document.getElementById('game_grid');
     //typing letters into the squares of a row
     document.addEventListener('keydown', event =>{
         const keyPressed = event.key.toUpperCase();
-        if (gameOver) { 
+
+        //making sure the user can't try to guess when the game is over
+        if (gameOver == 1 || gameOver == 2) return;
+
+        //MAYBE PUT THIS OUTSIDE OF THE EVENT LISTENER, IT'S NOT GOING TO GET HERE OTHERWISE
+        if (gameOver != 0 || gameOver != -1) { 
             // make restart button visible
             restartButton.style.display = 'block';
          };
+
+
         //if we still have space in the row and it's a valid letter, add it to the squares
         if (columnNumber<5){
             if (keyPressed.match(/[a-z]/i) && keyPressed.length == 1){
@@ -97,90 +102,71 @@ const wordleGrid = document.getElementById('game_grid');
             if (keyPressed == 'ENTER'){
                 word = word.toLowerCase();
 
-                // check if word if five-letters
-                checkWord(word).then(isValid => {
-                    if (isValid) {
+                //send the word to index.php -> write something to grab that value in index.php, you haven't yet
+                var xhttp = new XMLHttpRequest();
+                xhttp.open('GET', '../index.php?=' + word, true);
+                xhttp.send();
 
-                        //you won!
-                        if (word == wordleWord) {
-                            //change all the squares to green
+                //we now want to check our new values from the JSON file
+                var jsonInfo = new XMLHttpRequest();
+                jsonInfo.onreadystatechange = function(){
+                    if (this.readyState == 4 && this.status == 200){
+                        var data = JSON.parse(jsonInfo.responseText);
+                        
+                        
+                        var wordIsValid = data.wordValid;
+                        var colours = data.colourArray;
+                        gameOver = data.GAMEOVER;
+
+                        //checking if the word is one in the list
+                        if (wordIsValid == 0){
+                            //going through all the letters in the row
                             for (var i = 0; i<5; i++){
-                                changeColour(wordleGrid, rowNumber, i, green);
+                                //if this letter's spot has value 0, then it is gray
+                                if (colours[i] == 0){
+                                    changeColour(wordleGrid, rowNumber, i, gray);
+                                }
+                                //if this letter's spot has value 1, it is yellow
+                                else if (colours[i] == 1){
+                                    changeColour(wordleGrid, rowNumber, i, yellow);
+                                }
+                                //otherwise it is green
+                                else if (colours[i] == 2){
+                                    changeColour(wordleGrid, rowNumber, i, green);
+                                }
                             }
-                            gameOver = true; // end game
+                            //setting the column number back to 0 to prepare for the user's next guess
+                            columnNumber = 0;
+                            //adding one to the row number to prepare for the next guess
+                            rowNumber++;
+                        }
+                        //the guessed word is not a valid guess
+                        else{
+                            if (wordIsValid == 1){
+                                alert("Word is not valid. Try again.");
+                            }
+                            else if (wordIsValid == 2){
+                                alert("This word has already been guessed. Please try another one");
+                            }
+                        }
+                        //the user won the game
+                        if (gameOver == 1){
                             alert(`Congratulations! You took ${rowNumber+1} guesses!`);
                             // make restart button visible
                             restartButton.style.display = 'block';
-                        } 
-                        //make sure the word hasn't alrady been guessed
-                        else if (wordList.includes(word)){
-                            alert("You've already tried this word. Try a different one");
                         }
-                        //the word can be guessed, but is not correct 
-                        else {
-                            //check the position of every letter
-                            for (var i = 0; i<5; i++){
-                                currentLetter = word.charAt(i);
-                                expectedLetter = wordleWord.charAt(i);
-
-                                //if the letter is in the correct position, turn it green
-                                if (currentLetter == expectedLetter){
-                                    changeColour(wordleGrid, rowNumber, i, green);
-                                }
-                                //otherwise, if the word contains this letter, figure out what to do with it
-                                else if (wordleWord.includes(currentLetter)){
-                                    //first we have to check if this is the letter guessed an extra time
-                                    let wordCount = 0;
-                                    let wordleCount = 0;
-                                    let incorrectCount = 0;
-                                    let correctCount = 0;
-                                    //we need to check if there are any more instances of the letter left in the word
-                                    //we start by seeing how many instances there are in the expected word and how many are guessed correctly
-                                    for (let j = 0; j<5; j++){
-                                        if (wordleWord.charAt(j) == currentLetter){
-                                            wordleCount++;
-                                            if (word.charAt(j) == currentLetter){
-                                                correctCount++;
-                                            }
-                                        }
-                                    }
-                                    //we see how many incorrect instances we already covered in our guess
-                                    for (let j = 0; j<i; j++){
-                                        if (word.charAt(j) == currentLetter && wordleWord.charAt(j) != currentLetter){
-                                            incorrectCount++;
-                                        }  
-                                    }
-                                    //if the number of correct instances of the letter + the previous incorrect instances in the word are equal to the instances in the acutal word, then this square should be gray
-                                    if (wordleCount - (correctCount+incorrectCount) <= 0){
-                                        changeColour(wordleGrid, rowNumber, i, gray);
-                                    }
-                                    //otherwise, it should be yellow
-                                    else{
-                                        changeColour(wordleGrid, rowNumber, i, yellow);
-                                    }
-                                }
-                                //if the letter is not in the word, turn it gray
-                                else{
-                                    changeColour(wordleGrid, rowNumber, i, gray);
-                                }
-                            }
-                            //if the user is on the last row and the word is not correct, they lost
-                            if (rowNumber == 5){
-                                gameOver = true; //end game
-                                alert(`Oh no! Looks like you ran out of guesses! The answer was ${wordleWord}. Game over =(`);
-                                // make restart button visible
-                                restartButton.style.display = 'block';
-                            }
-                            //if the game is not over, move on to the next row, save the word as a previous guess and reset the word
-                            rowNumber++;
-                            columnNumber = 0;
-                            wordList.push(word);
-                            word = '';
+                        //the user lost the game
+                        else if (gameOver == 2){
+                            alert(`Oh no! Looks like you ran out of guesses! Game over =(`);
+                            // make restart button visible
+                            restartButton.style.display = 'block';
                         }
-                    } else {
-                        alert("Word is not valid. Try again.");
                     }
-                });
+                }
+
+                jsonInfo.open('GET', '../objects.json', true);
+                jsonInfo.send();
+
             }
         }
     });
@@ -230,12 +216,22 @@ function resetGame() {
     // hide restart button
     restartButton.style.display = 'none';
 
-    // reset variables
+    /*RESET IN JSON
+    - wordValid = 0
+    - colourArray = [0, 0, 0, 0, 0]
+    - rowNum = 0
+    - GAMEOVER = -1
+    - currentWord = "";
+    - guessedWords = [null, null, null, null, null, null]
+    */
+    
+    //above might be possible by grabbing values from the file, updating them in here, using stringify and then writing to the file??
+
+    //KEEP THESE THE SAME
     word = '';
-    wordList = [];
     rowNumber = 0;
     columnNumber = 0;
-    gameOver = false;
+    gameOver = -1;
 
     // reset grid
     for (var i = 0; i<6; i++){
@@ -244,9 +240,6 @@ function resetGame() {
             removeLetter(wordleGrid, i, j);
         }
     }
-
-    // get new word of the day
-    wordleWord = getWordOfTheDay();
 }
 
 /**

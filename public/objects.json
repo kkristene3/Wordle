@@ -4,5 +4,6 @@
     "rowNum": 0,
     "score": ["-","-","-","-","-","-","-","-","-","-"],
     "GAMEOVER": -1,
-    "currentWord": ""
+    "currentWord": "",
+    "guessedWords": [null,null,null,null,null, null]
 }
