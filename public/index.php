@@ -99,11 +99,4 @@
 
 </html>
 
-<?php
-
-//connecting the file to the Wordle.php files
-
-
-?>
-
 

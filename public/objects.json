@@ -1,14 +1,15 @@
 {
-    "wordValid": 2,
+    "wordValid": 0,
     "colourArray": [
-        2,
-        2,
-        2,
-        2,
-        2
+        1,
+        1,
+        1,
+        1,
+        1
     ],
-    "rowNum": 3,
+    "rowNum": 0,
     "score": [
+        3,
         3,
         4,
         "-",
@@ -17,14 +18,13 @@
         "-",
         "-",
         "-",
-        "-",
         "-"
     ],
-    "GAMEOVER": 1,
+    "GAMEOVER": -1,
     "currentWord": "yearn",
     "guessedWords": [
-        "adieu",
-        "dices",
+        null,
+        null,
         null,
         null,
         null,
