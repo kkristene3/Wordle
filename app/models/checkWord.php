@@ -27,5 +27,5 @@ function checkWord($guessedWord) {
     }
 }
 
-print_r(checkWord("hello"));
+print_r(checkWord("haste"));
 

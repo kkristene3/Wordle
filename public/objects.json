@@ -1,1 +1,33 @@
-{"wordValid":0,"colourArray":[0,0,0,0,0],"rowNum":0,"score":["-","-","-","-","-","-","-","-","-","-"],"GAMEOVER":0,"currentWord":"Error finding file","guessedWords":[null,null,null,null,null,null]}
+{
+    "wordValid": 2,
+    "colourArray": [
+        2,
+        2,
+        2,
+        2,
+        2
+    ],
+    "rowNum": 3,
+    "score": [
+        3,
+        4,
+        "-",
+        "-",
+        "-",
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+    ],
+    "GAMEOVER": 1,
+    "currentWord": "yearn",
+    "guessedWords": [
+        "adieu",
+        "dices",
+        null,
+        null,
+        null,
+        null
+    ]
+}

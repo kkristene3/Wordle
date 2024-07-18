@@ -4,7 +4,9 @@
 
     function runGame() {
         //get objects from JSON file
-        $json_content = file_get_contents('../../public/objects.json');
+        $json_content = file_get_contents('objects.json');
+
+        $word = $_REQUEST['word'];
 
         //check if the file was read successfully
         if ($json_content === false){
@@ -20,6 +22,7 @@
         }
 
         if ($word == "resetIt"){
+            
         }
 
         else{
@@ -41,6 +44,7 @@
             
             //if the word is valid, we check the placement
             if ($json_array['wordValid'] == 0){
+                echo "XO";
                 checkLetterPlacement($word);
             }
         }
@@ -57,7 +61,7 @@
     function checkLetterPlacement($guess){
 
         //get objects from JSON file
-        $json_content = file_get_contents('../../public/objects.json');
+        $json_content = file_get_contents('objects.json');
 
         //check if the file was read successfully
         if ($json_content === false){
@@ -173,7 +177,7 @@
 
         //modifying the data in the JSON file
         $final_json_content = json_encode($json_array, JSON_PRETTY_PRINT);
-        file_put_contents('../../public/objects.json', $final_json_content);
+        file_put_contents('objects.json', $final_json_content);
     }
 
     /**
@@ -183,7 +187,7 @@
      */
     function checkWord($guessedWord) {
         // get objects from JSON file
-        $json_content = file_get_contents('../../public/objects.json');
+        $json_content = file_get_contents('objects.json');
         
         //check if the file was read successfully
         if ($json_content === false){
@@ -218,7 +222,7 @@
 
             //modifying the data in the JSON file
             $final_json_content = json_encode($json_array, JSON_PRETTY_PRINT);
-            file_put_contents('../../public/objects.json', $final_json_content);
+            file_put_contents('objects.json', $final_json_content);
             
         } else {
             // error finding file

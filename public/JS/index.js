@@ -42,7 +42,7 @@ setInterval(fetchData, 10000); // Fetch data every 10 seconds
 
 /* This is the main flow of the game */
 //Variable to store guessed word
-var word = '';
+var word = "";
 
 //Tile colours
 var green = 'background-color: #6ca965';
@@ -104,7 +104,7 @@ const wordleGrid = document.getElementById('game_grid');
 
                 //send the word to index.php -> write something to grab that value in index.php, you haven't yet
                 var xhttp = new XMLHttpRequest();
-                xhttp.open('GET', '../index.php?=' + word, true);
+                xhttp.open('GET', "../Wordle.php?word=" + word, true);
                 xhttp.send();
 
                 //we now want to check our new values from the JSON file
@@ -139,6 +139,7 @@ const wordleGrid = document.getElementById('game_grid');
                             columnNumber = 0;
                             //adding one to the row number to prepare for the next guess
                             rowNumber++;
+                            word = '';
                         }
                         //the guessed word is not a valid guess
                         else{
@@ -147,11 +148,13 @@ const wordleGrid = document.getElementById('game_grid');
                             }
                             else if (wordIsValid == 2){
                                 alert("This word has already been guessed. Please try another one");
+                            } else {
+                                console.log(wordIsValid);
                             }
                         }
                         //the user won the game
                         if (gameOver == 1){
-                            alert(`Congratulations! You took ${rowNumber+1} guesses!`);
+                            alert(`Congratulations! You took ${rowNumber} guesses!`);
                             // make restart button visible
                             restartButton.style.display = 'block';
                         }
