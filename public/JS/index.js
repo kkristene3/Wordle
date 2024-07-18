@@ -110,10 +110,9 @@ const wordleGrid = document.getElementById('game_grid');
                     if (this.readyState == 4 && this.status == 200){
                         var data = JSON.parse(jsonInfo.responseText);
                         
-                        
-                        var wordIsValid = data.wordValid;
                         var colours = data.colourArray;
                         gameOver = data.GAMEOVER;
+                        var wordIsValid = data.wordValid;
 
                         //checking if the word is one in the list
                         if (wordIsValid == 0){
@@ -145,8 +144,6 @@ const wordleGrid = document.getElementById('game_grid');
                             }
                             else if (wordIsValid == 2){
                                 alert("This word has already been guessed. Please try another one");
-                            } else {
-                                console.log(wordIsValid);
                             }
                         }
                         //the user won the game

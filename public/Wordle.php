@@ -42,10 +42,9 @@ function runGame() {
         //check if the word is valid
         checkWord($word);
         
-        //if the word is valid, we check the placement
-        if ($json_array['wordValid'] === 0){
-            checkLetterPlacement($word);
-        }
+    
+        checkLetterPlacement($word);
+        
     }
 }
 
@@ -115,7 +114,7 @@ function checkLetterPlacement($guess){
     }
 
     //the word can be guessed, but it is not correct
-    else{
+    else if ($json_array['wordValid'] != 1){
         //check the position of every letter
         for ($i = 0; $i<5; $i++){
             $currentLetter = substr($guess, $i, 1);
