@@ -4,6 +4,17 @@ This project is an online copy of the New York Times game Wordle. The technologi
 
 Players will have **up to 6 guess** to determine the five-letter word of the day. They are given feedback for each guess made in the form of colored tiles.
 
+## How to Run
+1. Clone repository to the directory of your choosing
+```bash
+git clone https://github.com/kkristene3/Wordle
+```
+2. Open Git Bash in the Wordle directory it was saved in and run the following command
+```bash
+(cd public && php -S localhost:4000)
+```
+4. Open a browser and visit `http://localhost:4000` to play the game
+
 ## Rules & Instructions
 
 1. Begin typing a five-letter word using your keyboard. When you are ready to make a guess, hit the 'Enter' button on your keyboard.
