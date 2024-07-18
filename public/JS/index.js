@@ -111,7 +111,7 @@ const wordleGrid = document.getElementById('game_grid');
                 var jsonInfo = new XMLHttpRequest();
                 jsonInfo.onreadystatechange = function(){
                     if (this.readyState == 4 && this.status == 200){
-                        var data = JSON.parse(xhr.responseText);
+                        var data = JSON.parse(jsonInfo.responseText);
                         
                         
                         var wordIsValid = data.wordValid;
@@ -163,6 +163,9 @@ const wordleGrid = document.getElementById('game_grid');
                         }
                     }
                 }
+
+                jsonInfo.open('GET', '../objects.json', true);
+                jsonInfo.send();
 
             }
         }
