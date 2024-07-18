@@ -1,36 +1,13 @@
 <?php
 
-
 class Wordle{
 
-    function checkWord($guessedWord) {
-        // check if a txt file exists
-        if (file_exists('valid-wordle-words.txt')) {
-            
-            // read the file
-            $words = file('valid-wordle-words.txt');
-    
-            // trim whitespace from each word
-            $words = array_map('trim', $words);
-    
-            // trim whitespace from guessed word
-            $guessedWord = trim($guessedWord);
-    
-            // check if guessed word is in the list of valid words
-            if (in_array($guessedWord, $words)) {
-                return 'Word is valid';
-            } else {
-                return 'Word is not valid';
-            }
-    
-            
-        } else {
-            // error finding file
-            return 'Error finding file';
-        }
-    }
-    
-    //Checking if you won the game!!
+    /**
+     * Check if player won game!!
+     * Updates JSON file with new data
+     * @param $guess the word that the user guessed
+     * @return void
+     */
     function checkLetterPlacement($guess){
 
         //get objects from JSON file
@@ -149,10 +126,61 @@ class Wordle{
         }
 
         //modifying the data in the JSON file
-        $final_json_content = json_encode($json_array);
+        $final_json_content = json_encode($json_array, JSON_PRETTY_PRINT);
         file_put_contents('../../public/objects.json', $final_json_content);
     }
 
+    /**
+     * Check if the guessed word is valid
+     * @param $guessedWord the word that the user guessed
+     * @return true if the word is valid, false if the word is not valid
+     */
+    function checkWord($guessedWord) {
+        // get objects from JSON file
+        $json_content = file_get_contents('../../public/objects.json');
+        
+        //check if the file was read successfully
+        if ($json_content === false){
+            die('Could not read JSON file');
+        }
+
+        //turn the JSON content into an array
+        $json_array = json_decode($json_content, true);
+
+        //check if the JSON was decoded properly
+        if ($json_array === null){
+            die ("Error decoding the file");
+        }
+        // check if a txt file exists
+        if (file_exists('valid-wordle-words.txt')) {
+            
+            // read the file
+            $words = file('valid-wordle-words.txt');
+    
+            // trim whitespace from each word
+            $words = array_map('trim', $words);
+    
+            // trim whitespace from guessed word
+            $guessedWord = trim($guessedWord);
+    
+            // check if guessed word is in the list of valid words
+            if (in_array($guessedWord, $words)) {
+                return true;
+            } else {
+                $json_array['wordValid'] = 1; 
+                return false;
+            }
+            
+        } else {
+            // error finding file
+            return 'Error finding file';
+        }
+    }
+
+    /**
+     * Get a random word from the list of words
+     * @return the word of the day
+     */
     function getWordOfTheDay() {
         // check if a txt file exists
         if (file_exists('wordle-La.txt')) {
@@ -171,11 +199,41 @@ class Wordle{
         }
     }
 
+    /**
+     * Reset the JSON file to its initial state
+     * @return void
+     */
+    function resetJSON() {
+        // get objects from JSON file
+        $json_content = file_get_contents('../../public/objects.json');
+        
+        //check if the file was read successfully
+        if ($json_content === false){
+            die('Could not read JSON file');
+        }
 
+        //turn the JSON content into an array
+        $json_array = json_decode($json_content, true);
+
+        //check if the JSON was decoded properly
+        if ($json_array === null){
+            die ("Error decoding the file");
+        }
+
+        // reset the JSON array
+        $json_array['wordValid'] = 0;
+        $json_array['colourArray'] = [0, 0, 0, 0, 0];
+        $json_array['rowNum'] = 0;
+        $json_array['GAMEOVER'] = -1;
+        $json_array['currentWord'] = "";
+        $json_array['guessedWords'] = [null, null, null, null, null, null];
+
+        //modifying the data in the JSON file
+    $final_json_content = json_encode($json_array, JSON_PRETTY_PRINT);
+        file_put_contents('../../public/objects.json', $final_json_content);
+    }
 
 }
-
-
 
 ?>
 
