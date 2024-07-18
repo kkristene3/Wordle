@@ -37,9 +37,6 @@ window.onload = function() {
     fetchData();
 };
 
-// Example function to simulate data fetching periodically (e.g., every 10 seconds)
-setInterval(fetchData, 10000); // Fetch data every 10 seconds
-
 /* This is the main flow of the game */
 //Variable to store guessed word
 var word = "";
@@ -157,12 +154,14 @@ const wordleGrid = document.getElementById('game_grid');
                             alert(`Congratulations! You took ${rowNumber} guesses!`);
                             // make restart button visible
                             restartButton.style.display = 'block';
+                            fetchData();
                         }
                         //the user lost the game
                         else if (gameOver == 2){
                             alert(`Oh no! Looks like you ran out of guesses! Game over =(`);
                             // make restart button visible
                             restartButton.style.display = 'block';
+                            fetchData();
                         }
                     }
                 }
@@ -232,4 +231,10 @@ function resetGame() {
             removeLetter(wordleGrid, i, j);
         }
     }
+
+    // call reset function in PHP 
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '../Wordle.php?word=resetIt', true);
+    xhr.send();
+
 }
