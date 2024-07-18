@@ -163,12 +163,13 @@ const wordleGrid = document.getElementById('game_grid');
                     }
                 }
 
-                jsonInfo.open('GET', '../objects.json', true);
-                jsonInfo.send();
+                
 
             }
         }
     });
+    jsonInfo.open('GET', '../objects.json', true);
+    jsonInfo.send();
 
 /**
  * This function adds a letter to a square
