@@ -210,24 +210,13 @@ function changeColour(grid, rowNum, squareNum, colour){
 }
 
 /**
- * This function resets the game when the button is clicked
+ * This function resets the game values when the button is clicked
  */
 function resetGame() {
     // hide restart button
     restartButton.style.display = 'none';
 
-    /*RESET IN JSON
-    - wordValid = 0
-    - colourArray = [0, 0, 0, 0, 0]
-    - rowNum = 0
-    - GAMEOVER = -1
-    - currentWord = "";
-    - guessedWords = [null, null, null, null, null, null]
-    */
-    
-    //above might be possible by grabbing values from the file, updating them in here, using stringify and then writing to the file??
-
-    //KEEP THESE THE SAME
+   // reset variables
     word = '';
     rowNumber = 0;
     columnNumber = 0;
