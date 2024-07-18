@@ -22,7 +22,7 @@ Players will have **up to 6 guess** to determine the five-letter word of the day
 The overall designs for the game can be found at: [Design System](docs/design_system.md).
 
 ## In-game Screenshots
-As a user plays the game, they will receive pop-up messages and feedback, in terms of coloured tiles, based on the words they guess.
+As a user plays the game, they will receive pop-up messages and feedback, in terms of coloured tiles, based on the words they guess. They will also see a scoreboard tracking their top 10 scores.
 
 - When the user makes a **valid guess**, the grid will display the appropriate feedback through coloured tiles.
 
@@ -43,6 +43,10 @@ As a user plays the game, they will receive pop-up messages and feedback, in ter
 - When the user **uses up all 6 guesses**, they receive a message stating they have ran out of guesses and what the answer was.
 
 ![ran-out-of-guesses](imgs/ran-out-of-guesses.png)
+
+- The player can view their top 10 scores by looking at the scoreboard.
+
+![scoreboard](imgs/scoreboard.png)
 
 ## References
 - The raw .txt file containing all possible Wordle answers was uploaded by GitHub user [Garrett Scholtes](https://gist.github.com/scholtes). This list of words used can be found at [Wordle dictionary](https://gist.github.com/scholtes/94f3c0303ba6a7768b47583aff36654d).
