@@ -113,6 +113,7 @@ const wordleGrid = document.getElementById('game_grid');
                         var colours = data.colourArray;
                         gameOver = data.GAMEOVER;
                         var wordIsValid = data.wordValid;
+                        var answer = data.currentWord;
 
                         //checking if the word is one in the list
                         if (wordIsValid == 0){
@@ -155,7 +156,7 @@ const wordleGrid = document.getElementById('game_grid');
                         }
                         //the user lost the game
                         else if (gameOver == 2){
-                            alert(`Oh no! Looks like you ran out of guesses! Game over =(`);
+                            alert(`Oh no! Looks like you ran out of guesses! The answer was ${answer}.`);
                             // make restart button visible
                             restartButton.style.display = 'block';
                             fetchData();
@@ -163,13 +164,12 @@ const wordleGrid = document.getElementById('game_grid');
                     }
                 }
 
-                
+                jsonInfo.open('GET', '../objects.json', true);
+                jsonInfo.send();
 
             }
         }
     });
-    jsonInfo.open('GET', '../objects.json', true);
-    jsonInfo.send();
 
 /**
  * This function adds a letter to a square
