@@ -165,11 +165,14 @@ class Wordle{
     
             // check if guessed word is in the list of valid words
             if (in_array($guessedWord, $words)) {
-                return true;
+                $json_array['wordValid'] = 0; // valid guess
             } else {
-                $json_array['wordValid'] = 1; 
-                return false;
+                $json_array['wordValid'] = 1; // not valid guess
             }
+
+            //modifying the data in the JSON file
+            $final_json_content = json_encode($json_array, JSON_PRETTY_PRINT);
+            file_put_contents('../../public/objects.json', $final_json_content);
             
         } else {
             // error finding file
@@ -229,7 +232,7 @@ class Wordle{
         $json_array['guessedWords'] = [null, null, null, null, null, null];
 
         //modifying the data in the JSON file
-    $final_json_content = json_encode($json_array, JSON_PRETTY_PRINT);
+        $final_json_content = json_encode($json_array, JSON_PRETTY_PRINT);
         file_put_contents('../../public/objects.json', $final_json_content);
     }
 
