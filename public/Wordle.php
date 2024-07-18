@@ -78,6 +78,7 @@ function checkLetterPlacement($guess){
     if ($json_array['currentWord'] == $guess){
         $json_array['GAMEOVER'] = 1;  
         $json_array['colourArray'] = [2, 2, 2, 2, 2];
+        $json_array['guessedWords'][$json_array['rowNum']] = $guess;
 
         // get the current scoreboard and the current score
         $scoreboard = $json_array['score'];

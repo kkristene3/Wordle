@@ -14,6 +14,79 @@ function fetchData() {
     xhr.send();
 }
 
+/**
+ * Reload data into wordle grid
+ */
+function fetchWordleData() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'objects.json', true);
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var data = JSON.parse(xhr.responseText);
+            // get previous guesses to repopulate wordle grid
+            var colours = data.colourArray;
+            var previousGuesses = data.guessedWords;
+            var rowNum = data.rowNum;
+            gameOver = data.GAMEOVER;
+            repopulateGrid(colours, previousGuesses, gameOver, rowNum);
+        }
+    };
+
+    xhr.send();
+}
+
+/**
+ * Repopulates grid with previous guesses
+ * @param {} colours 
+ * @param {*} previousGuesses 
+ */
+function repopulateGrid(colours, previousGuesses, gameOver, rowNum) {
+
+    if (gameOver === 1 || gameOver === 2) {
+        restartButton.style.display = 'block';
+    } 
+    // Get the wordle grid
+    let wordleGrid = document.getElementById('game_grid');
+
+    // Iterate over previousGuesses array
+    for (let r = 0; r < previousGuesses.length; r++) {
+        let guess = previousGuesses[r];
+
+        // Skip if guess is null or undefined
+        if (guess === null || guess === undefined) {
+            continue;
+        }
+
+        for (let c = 0; c < guess.length; c++) {
+            let letter = guess[c] ? guess[c].toUpperCase() : '';
+            let colour = colours[r * 5 + c]; // Assuming colours array is flat
+
+            if (letter !== undefined && letter !== '') {
+                addLetter(wordleGrid, r, c, letter);
+                if (rowNum >= r) {
+                    if (colour === 0) {
+                    changeColour(wordleGrid, rowNum-1, c, gray);
+                    } else if (colour === 1) {
+                        changeColour(wordleGrid, rowNum-1, c, yellow);
+                    } else if (colour === 2) {
+                        changeColour(wordleGrid, rowNum-1, c, green);
+                    }
+                }
+                
+            }
+        }
+    
+    }
+
+    
+}
+
+
+/**
+ * Update the scoreboard with the data from the JSON file
+ * @param {} score 
+ */
 function updateScoreboard(score) {
     // populate scoreboard with data from JSON file
     let placeholder = document.getElementById('scoreboard-data');
@@ -35,6 +108,7 @@ function updateScoreboard(score) {
 // Fetch the data when the page loads
 window.onload = function() {
     fetchData();
+    fetchWordleData();
 };
 
 /* This is the main flow of the game */
@@ -46,130 +120,112 @@ var green = 'background-color: #6ca965';
 var yellow = 'background-color: #c8b653';
 var gray = 'background-color: #787c7f';
 
+// get row number from JSON file
+var request = new XMLHttpRequest();
+request.open('GET', 'objects.json', true);
+
+request.onreadystatechange = function() {
+    if (request.readyState === 4 && request.status === 200) {
+        var data = JSON.parse(request.responseText);
+        rowNumber = data.rowNum;
+    }
+};
+
+request.send();
+
 //Variables to keep track of current square in the wordle grid
-var rowNumber = 0;
 var columnNumber = 0;
 
 //GRAB THIS VALUE FROM THE JSON FILE
 let gameOver = 0; // a variable to keep track of whether the game is over or not
 
 // get button object
-let restartButton = document.getElementById('reset_button');
-
-// get table object
-let scoreboard = document.getElementById('scoreboard');
+var restartButton = document.getElementById('reset_button');
 
 
 //getting the grid
 const wordleGrid = document.getElementById('game_grid');
 
     //typing letters into the squares of a row
-    document.addEventListener('keydown', event =>{
+    document.addEventListener('keydown', event => {
         const keyPressed = event.key.toUpperCase();
-
-        //MAYBE PUT THIS OUTSIDE OF THE EVENT LISTENER, IT'S NOT GOING TO GET HERE OTHERWISE
-        if (gameOver != 0 && gameOver != -1) { 
-            // make restart button visible
+    
+        if (gameOver !== 0 && gameOver !== -1) {
             restartButton.style.display = 'block';
-         };
-
-        //making sure the user can't try to guess when the game is over
-        if (gameOver == 1 || gameOver == 2) return;
-
-
-        //if we still have space in the row and it's a valid letter, add it to the squares
-        if (columnNumber<5){
-            if (keyPressed.match(/[a-z]/i) && keyPressed.length == 1){
+        }
+    
+        if (gameOver === 1 || gameOver === 2) return;
+    
+        if (columnNumber < 5) {
+            if (keyPressed.match(/[A-Z]/i) && keyPressed.length === 1) {
                 addLetter(wordleGrid, rowNumber, columnNumber, keyPressed);
                 word = word.concat(keyPressed);
                 columnNumber++;
             }
         }
-        //if we have a backspace and we still have a letter left, erase the last letter upon backspace
-        if (columnNumber > 0){
-            if (keyPressed == 'BACKSPACE'){
-                columnNumber--;
-                removeLetter(wordleGrid, rowNumber, columnNumber);
-                word = word.substring(0, word.length-1);
-            }
+    
+        if (columnNumber > 0 && keyPressed === 'BACKSPACE') {
+            columnNumber--;
+            removeLetter(wordleGrid, rowNumber, columnNumber);
+            word = word.substring(0, word.length - 1);
         }
-
-        //pressing enter to lock in the guess
-        if (columnNumber == 5){
-            if (keyPressed == 'ENTER'){
-                word = word.toLowerCase();
-
-                //send the word to index.php -> write something to grab that value in index.php, you haven't yet
-                var xhttp = new XMLHttpRequest();
-                xhttp.open('GET', "../Wordle.php?word=" + word, true);
-                xhttp.send();
-
-                //we now want to check our new values from the JSON file
-                var jsonInfo = new XMLHttpRequest();
-                jsonInfo.onreadystatechange = function(){
-                    if (this.readyState == 4 && this.status == 200){
-                        var data = JSON.parse(jsonInfo.responseText);
-                        
-                        var colours = data.colourArray;
-                        gameOver = data.GAMEOVER;
-                        var wordIsValid = data.wordValid;
-
-                        //checking if the word is one in the list
-                        if (wordIsValid == 0){
-                            //going through all the letters in the row
-                            for (var i = 0; i<5; i++){
-                                //if this letter's spot has value 0, then it is gray
-                                if (colours[i] == 0){
-                                    changeColour(wordleGrid, rowNumber, i, gray);
-                                }
-                                //if this letter's spot has value 1, it is yellow
-                                else if (colours[i] == 1){
-                                    changeColour(wordleGrid, rowNumber, i, yellow);
-                                }
-                                //otherwise it is green
-                                else if (colours[i] == 2){
-                                    changeColour(wordleGrid, rowNumber, i, green);
-                                }
-                            }
-                            //setting the column number back to 0 to prepare for the user's next guess
-                            columnNumber = 0;
-                            //adding one to the row number to prepare for the next guess
-                            rowNumber++;
-                            word = '';
-                        }
-                        //the guessed word is not a valid guess
-                        else{
-                            if (wordIsValid == 1){
-                                alert("Word is not valid. Try again.");
-                            }
-                            else if (wordIsValid == 2){
-                                alert("This word has already been guessed. Please try another one");
+    
+        if (columnNumber === 5 && keyPressed === 'ENTER') {
+            word = word.toLowerCase();
+    
+            var xhttp = new XMLHttpRequest();
+            xhttp.open('GET', "../Wordle.php?word=" + word, true);
+            xhttp.send();
+    
+            var jsonInfo = new XMLHttpRequest();
+            jsonInfo.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    var data = JSON.parse(jsonInfo.responseText);
+    
+                    var colours = data.colourArray;
+                    gameOver = data.GAMEOVER;
+                    var wordIsValid = data.wordValid;
+    
+                    if (wordIsValid === 0) {
+                        for (var i = 0; i < 5; i++) {
+                            if (colours[i] === 0) {
+                                changeColour(wordleGrid, rowNumber, i, gray);
+                            } else if (colours[i] === 1) {
+                                changeColour(wordleGrid, rowNumber, i, yellow);
+                            } else if (colours[i] === 2) {
+                                changeColour(wordleGrid, rowNumber, i, green);
                             }
                         }
-                        //the user won the game
-                        if (gameOver == 1){
-                            alert(`Congratulations! You took ${rowNumber} guesses!`);
-                            // make restart button visible
-                            restartButton.style.display = 'block';
-                            fetchData();
-                        }
-                        //the user lost the game
-                        else if (gameOver == 2){
-                            alert(`Oh no! Looks like you ran out of guesses! Game over =(`);
-                            // make restart button visible
-                            restartButton.style.display = 'block';
-                            fetchData();
+    
+                        columnNumber = 0;
+                        rowNumber++;
+                        word = '';
+                    } else {
+                        if (wordIsValid === 1) {
+                            alert("Word is not valid. Try again.");
+                        } else if (wordIsValid === 2) {
+                            alert("This word has already been guessed. Please try another one.");
                         }
                     }
+    
+                    if (gameOver === 1) {
+                        alert(`Congratulations! You took ${rowNumber} guesses!`);
+                        restartButton.style.display = 'block';
+                        fetchData();
+                    } else if (gameOver === 2) {
+                        alert(`Oh no! Looks like you ran out of guesses! Game over =(`);
+                        restartButton.style.display = 'block';
+                        fetchData();
+                    }
                 }
-
-                
-
-            }
+            };
+    
+            jsonInfo.open('GET', '../objects.json', true);
+            jsonInfo.send();
         }
     });
-    jsonInfo.open('GET', '../objects.json', true);
-    jsonInfo.send();
+    
+    
 
 /**
  * This function adds a letter to a square
@@ -207,6 +263,22 @@ function changeColour(grid, rowNum, squareNum, colour){
     const row = grid.children[rowNum];
     const square = row.children[squareNum];
     square.setAttribute("style", colour);
+}
+
+function getRowNumber(){
+    // get row number from JSON file
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'objects.json', true);
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var data = JSON.parse(xhr.responseText);
+            var row = data.rowNum;
+            console.log(row+1);
+            return row+1;
+        }
+    };
+    
 }
 
 /**
