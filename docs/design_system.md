@@ -17,9 +17,12 @@ Similar to the original Wordle, the name of the game is displayed in the top-cen
 
 ![header](imgs/header.png)
 
-
 ## Play Area
 Players use the grid to type their guess. As they type, a letter will appear in each square.
 In this grid, user's will make their guess(es) and receive feedback on the guess.
 
 ![play area](imgs/game-area-4.png)
+
+When a player finishes their game, a Play Again? button appears. Clicking it allows the player to play the game again.
+
+![play again button](imgs/play-again-button.png)
