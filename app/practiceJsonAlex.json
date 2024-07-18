@@ -1,1 +1,33 @@
-{"wordValid":0,"colourArray":[2,2,2,2,2],"rowNum":10,"score":["-","-","-","-","-","-","-","-","-","-"],"GAMEOVER":1,"currentWord":"guess","guessedWords":[null,null,null,null,null,null]}
+{
+    "wordValid": 0,
+    "colourArray": [
+        0,
+        0,
+        0,
+        0,
+        0
+    ],
+    "rowNum": 0,
+    "score": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-",
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+    ],
+    "GAMEOVER": -1,
+    "currentWord": "",
+    "guessedWords": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+    ]
+}
