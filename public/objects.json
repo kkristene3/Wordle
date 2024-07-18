@@ -1,19 +1,19 @@
 {
     "wordValid": 0,
     "colourArray": [
-        1,
-        1,
-        1,
-        1,
-        1
+        0,
+        0,
+        0,
+        0,
+        0
     ],
     "rowNum": 0,
     "score": [
         3,
         3,
         4,
-        "-",
-        "-",
+        4,
+        5,
         "-",
         "-",
         "-",
@@ -21,7 +21,7 @@
         "-"
     ],
     "GAMEOVER": -1,
-    "currentWord": "yearn",
+    "currentWord": "",
     "guessedWords": [
         null,
         null,
