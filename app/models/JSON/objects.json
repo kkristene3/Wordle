@@ -1,27 +1,27 @@
 {
-    "wordValid": 0,
+    "wordValid": 2,
     "colourArray": [
+        1,
         0,
-        0,
-        0,
+        1,
         0,
         0
     ],
     "rowNum": 0,
     "score": [
-        "-",
-        "-",
-        "-",
-        "-",
-        "-",
+        2,
+        3,
+        3,
+        4,
+        5,
         "-",
         "-",
         "-",
         "-",
         "-"
     ],
-    "GAMEOVER": -1,
-    "currentWord": "",
+    "GAMEOVER": 0,
+    "currentWord": "trawl",
     "guessedWords": [
         null,
         null,

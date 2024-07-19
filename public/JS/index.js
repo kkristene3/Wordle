@@ -2,7 +2,7 @@
 // Function to fetch data from a JSON file
 function fetchData() {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'objects.json', true);
+    xhr.open('GET', '../../JSON/objects.json', true);
 
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -19,7 +19,7 @@ function fetchData() {
  */
 function fetchWordleData() {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'objects.json', true);
+    xhr.open('GET', '../../JSON/objects.json', true);
 
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -122,7 +122,7 @@ var gray = 'background-color: #787c7f';
 
 // get row number from JSON file
 var request = new XMLHttpRequest();
-request.open('GET', 'objects.json', true);
+request.open('GET', '../../JSON/objects.json', true);
 
 request.onreadystatechange = function() {
     if (request.readyState === 4 && request.status === 200) {
@@ -174,7 +174,7 @@ const wordleGrid = document.getElementById('game_grid');
             word = word.toLowerCase();
     
             var xhttp = new XMLHttpRequest();
-            xhttp.open('GET', "../Wordle.php?word=" + word, true);
+            xhttp.open('GET', "../Wordle.php?word=" + word, false);
             xhttp.send();
     
             var jsonInfo = new XMLHttpRequest();
@@ -184,6 +184,7 @@ const wordleGrid = document.getElementById('game_grid');
     
                     var colours = data.colourArray;
                     gameOver = data.GAMEOVER;
+                    var answer = data.currentWord;
                     var wordIsValid = data.wordValid;
     
                     if (wordIsValid === 0) {
@@ -213,14 +214,14 @@ const wordleGrid = document.getElementById('game_grid');
                         restartButton.style.display = 'block';
                         fetchData();
                     } else if (gameOver === 2) {
-                        alert(`Oh no! Looks like you ran out of guesses! Game over =(`);
+                        alert(`Oh no! Looks like you ran out of guesses! The answer was ${answer}.`);
                         restartButton.style.display = 'block';
                         fetchData();
                     }
                 }
             };
     
-            jsonInfo.open('GET', '../objects.json', true);
+            jsonInfo.open('GET', '../../JSON/objects.json', true);
             jsonInfo.send();
         }
     });
@@ -268,13 +269,12 @@ function changeColour(grid, rowNum, squareNum, colour){
 function getRowNumber(){
     // get row number from JSON file
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'objects.json', true);
+    xhr.open('GET', '../../JSON/objects.json', true);
 
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var data = JSON.parse(xhr.responseText);
             var row = data.rowNum;
-            console.log(row+1);
             return row+1;
         }
     };
