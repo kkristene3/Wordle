@@ -10,7 +10,7 @@ class JSONHandler {
 
     public function __construct() {
         // Set the file path relative to the current script directory
-        $this->filePath = __DIR__ . '/JSON/objects.json';
+        $this->filePath = __DIR__ . '/../../public/JSON/objects.json';
     }
 
     /**

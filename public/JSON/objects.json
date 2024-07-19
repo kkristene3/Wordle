@@ -1,0 +1,33 @@
+{
+    "wordValid": 0,
+    "colourArray": [
+        0,
+        0,
+        2,
+        0,
+        0
+    ],
+    "rowNum": 2,
+    "score": [
+        1,
+        2,
+        2,
+        3,
+        3,
+        3,
+        4,
+        4,
+        5,
+        6
+    ],
+    "GAMEOVER": 0,
+    "currentWord": "spare",
+    "guessedWords": [
+        "adieu",
+        "blank",
+        null,
+        null,
+        null,
+        null
+    ]
+}

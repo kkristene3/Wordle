@@ -1,5 +1,6 @@
 <?php
 
+namespace App\Models;
 use App\Models\JsonHandler;
 use App\Models\ValidateWord;
 
@@ -20,14 +21,14 @@ class Game {
      * Calls other functions to run the game
      * @return void
      */
-    public function runGame() {
+    public function runGame($word) {
+        //debugging
+        error_log("Running game with word: $word");
+    
         // get the JSON data in an array
         $jsonContent= $this->jsonHandler->getJsonData();
         $jsonArray = json_decode($jsonContent, true);
-       
-       // $word = $_REQUEST['word'];
-       $word= "retro";
-
+    
         // reset the JSON array
         if ($word == "resetIt") {
             $this->resetJSON();
@@ -39,11 +40,14 @@ class Game {
                 //indicate that the game has started in the JSON
                 $this->jsonHandler->updateJsonField('GAMEOVER', 0);
             }
-
+    
             $this->wordValidator->checkWord($word);
             $this->checkLetterPlacement($word);
         }
+        //  debugging
+        error_log("JSON after runGame: " . $this->jsonHandler->getJsonData());
     }
+    
 
 /**
      * Check if player won game!!
@@ -176,7 +180,7 @@ class Game {
         // reset JSON data
         $this->jsonHandler->updateJsonField('currentWord', "");
         $this->jsonHandler->updateJsonField('rowNum', 0);
-        $this->jsonHandler->updateJsonField('guessedWords', ["-", "-", "-", "-", "-"]);
+        $this->jsonHandler->updateJsonField('guessedWords', [null, null, null, null, null, null]);
         $this->jsonHandler->updateJsonField('colourArray', [0, 0, 0, 0, 0]);
         $this->jsonHandler->updateJsonField('wordValid', 0);
         $this->jsonHandler->updateJsonField('GAMEOVER', -1);
@@ -186,7 +190,7 @@ class Game {
     public function getJsonData() {
         return $this->jsonHandler->getJsonData();
     }
-    
+   
 
 }
 
