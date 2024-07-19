@@ -174,12 +174,13 @@ const wordleGrid = document.getElementById('game_grid');
             word = word.toLowerCase();
     
             var xhttp = new XMLHttpRequest();
-            xhttp.open('GET', "../Wordle.php?word=" + word, true);
+            xhttp.open('GET', "../Wordle.php?word=" + word, false);
             xhttp.send();
     
             var jsonInfo = new XMLHttpRequest();
             jsonInfo.onreadystatechange = function() {
                 if (this.readyState === 4 && this.status === 200) {
+                    console.log(jsonInfo.responseText); // Print the JSON response
                     var data = JSON.parse(jsonInfo.responseText);
     
                     var colours = data.colourArray;
