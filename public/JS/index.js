@@ -180,7 +180,6 @@ const wordleGrid = document.getElementById('game_grid');
             var jsonInfo = new XMLHttpRequest();
             jsonInfo.onreadystatechange = function() {
                 if (this.readyState === 4 && this.status === 200) {
-                    console.log(jsonInfo.responseText); // Print the JSON response
                     var data = JSON.parse(jsonInfo.responseText);
     
                     var colours = data.colourArray;
@@ -276,7 +275,6 @@ function getRowNumber(){
         if (xhr.readyState === 4 && xhr.status === 200) {
             var data = JSON.parse(xhr.responseText);
             var row = data.rowNum;
-            console.log(row+1);
             return row+1;
         }
     };
